@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mobile Management</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">📱 Mobile Management System</h2>
+
+    <!-- Add Mobile Form -->
+    <div class="card p-4 shadow">
+        <h4>Add / Update Mobile</h4>
+
+        <form th:action="@{/save}" th:object="${mobile}" method="post">
+
+            <input type="hidden" th:field="*{mobileid}" />
+
+            <div class="mb-3">
+                <label class="form-label">Mobile Name</label>
+                <input type="text" class="form-control" th:field="*{mobilename}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">RAM</label>
+                <input type="number" class="form-control" th:field="*{ram}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">ROM</label>
+                <input type="number" class="form-control" th:field="*{rom}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{price}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save / Update</button>
+        </form>
+    </div>
+
+    <br>
+
+    <!-- Search RAM -->
+    <div class="card p-4 shadow">
+        <h4>Find High RAM Mobiles</h4>
+
+        <form th:action="@{/ram}" method="post" class="row g-3">
+
+            <div class="col-auto">
+                <input type="number" class="form-control" name="ram" placeholder="Enter RAM" required>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+
+        </form>
+    </div>
+
+    <br>
+
+    <!-- Mobile Table -->
+    <div class="card p-4 shadow">
+        <h4>Mobile List</h4>
+
+        <table class="table table-striped table-bordered mt-3">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>RAM</th>
+                <th>ROM</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="m : ${mobiles}">
+                <td th:text="${m.mobileid}"></td>
+                <td th:text="${m.mobilename}"></td>
+                <td th:text="${m.ram}"></td>
+                <td th:text="${m.rom}"></td>
+                <td th:text="${m.price}"></td>
+
+                <td>
+                    <a th:href="@{/edit/{id}(id=${m.mobileid})}" class="btn btn-warning btn-sm">Edit</a>
+
+                    <a th:href="@{/delete/{id}(id=${m.mobileid})}"
+                       onclick="return confirm('Are you sure?')"
+                       class="btn btn-danger btn-sm">
+                       Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
